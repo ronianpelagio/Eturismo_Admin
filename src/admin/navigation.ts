@@ -4,6 +4,7 @@ export const navPages = [
   'users',
   'announcements',
   'events',
+  'recent-logs',
   'settings',
 ] as const;
 
@@ -15,5 +16,6 @@ export const pageTitleMap: Record<PageKey, string> = {
   users: 'Users',
   announcements: 'Announcements',
   events: 'Events',
+  'recent-logs': 'Recent Logs',
   settings: 'Settings',
 };

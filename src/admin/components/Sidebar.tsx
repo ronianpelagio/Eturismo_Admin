@@ -10,6 +10,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
   LogOut,
+  ClipboardList,
 } from 'lucide-react';
 import type { PageKey } from '../navigation';
 import { cn } from '@/lib/utils';
@@ -37,6 +38,7 @@ const NAV: Array<{ key: PageKey; label: string; icon: React.ComponentType<{ clas
   { key: 'users', label: 'Users', icon: Users },
   { key: 'announcements', label: 'Announcements', icon: Megaphone },
   { key: 'events', label: 'Events', icon: Calendar },
+  { key: 'recent-logs', label: 'Recent Logs', icon: ClipboardList },
   { key: 'settings', label: 'Settings', icon: Settings },
 ];
 

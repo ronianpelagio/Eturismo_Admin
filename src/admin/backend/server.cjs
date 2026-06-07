@@ -44,13 +44,13 @@ const DEFAULT_VOICE = {
   ko: 'ko-KR-Standard-A',
 };
 
-// Map language to database column
+// Map language to database language_code (used in artifact_translations table)
 const COLUMN_MAP = {
-  en: 'audio_en',
-  fil: 'audio_fil',
-  ja: 'audio_ja',
-  es: 'audio_es',
-  ko: 'audio_ko',
+  en: 'en',
+  fil: 'fil',
+  ja: 'ja',
+  es: 'es',
+  ko: 'ko',
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -296,9 +296,9 @@ app.post('/generate-audio', async (req, res) => {
     }
 
     const selectedVoice = voiceName || voice || DEFAULT_VOICE[lang];
-    const column = COLUMN_MAP[lang];
+    const langCode = COLUMN_MAP[lang];
     
-    if (!column) {
+    if (!langCode) {
       return res.status(400).json({
         error: `No column mapping for language: ${lang}`
       });
@@ -359,13 +359,25 @@ app.post('/generate-audio', async (req, res) => {
 
     const audioUrl = publicData.publicUrl;
 
-    // Save URL to artifacts table
-    const { error: dbError } = await supabase
-      .from('artifacts')
-      .update({
-        [column]: audioUrl,
-      })
-      .eq('id', artifactId);
+    // Save URL to artifact_translations table
+    const { data: existingTx } = await supabase
+      .from('artifact_translations')
+      .select('id')
+      .eq('artifact_id', artifactId)
+      .eq('language_code', langCode)
+      .maybeSingle();
+
+    let dbError;
+    if (existingTx) {
+      ({ error: dbError } = await supabase
+        .from('artifact_translations')
+        .update({ audio_url: audioUrl })
+        .eq('id', existingTx.id));
+    } else {
+      ({ error: dbError } = await supabase
+        .from('artifact_translations')
+        .insert({ artifact_id: artifactId, language_code: langCode, name: '', audio_url: audioUrl }));
+    }
 
     if (dbError) {
       throw dbError;

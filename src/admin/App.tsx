@@ -10,6 +10,7 @@ import UsersPage from './pages/UsersPage';
 import AnnouncementsPage from './pages/AnnouncementsPage';
 import EventsPage from './pages/EventsPage';
 import SettingsPage from './pages/SettingsPage';
+import RecentLogsPage from './pages/RecentLogsPage';
 import SearchBar from './components/SearchBar';
 import NotificationDropdown from './components/NotificationDropdown';
 import { ChevronRight, Loader2, Menu, Sun, Moon } from 'lucide-react';
@@ -151,6 +152,7 @@ export default function App() {
       case 'users':         return <UsersPage />;
       case 'announcements': return <AnnouncementsPage />;
       case 'events':        return <EventsPage />;
+      case 'recent-logs':   return <RecentLogsPage />;
       case 'settings':      return <SettingsPage />;
     }
   };

@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:20-alpine
 WORKDIR /app
 
 # Copy package manifests from repo root (we rely on root package.json)

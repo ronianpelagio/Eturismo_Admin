@@ -112,7 +112,7 @@ async function generateAudioViaAPI(
   voiceName?: string,
   speakingRate?: number,
 ): Promise<{ success: boolean; audioUrl: string; voiceUsed?: string }> {
-  const res = await fetch('http://localhost:5000/generate-audio', {
+  const res = await fetch('https://eturismoadmin.up.railway.app/generate-audio', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ artifactId, text, lang: langCode, voiceName, speakingRate: speakingRate || 1.0 }),
@@ -187,7 +187,7 @@ export default function ArtifactsPage() {
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/available-voices/${activeLang}`)
+    fetch(`https://eturismoadmin.up.railway.app/available-voices/${activeLang}`)
       .then(r => r.json())
       .then(d => { setAvailableVoices(d.voices || []); setSelectedVoice(d.defaultVoice || ''); })
       .catch(() => {});
@@ -294,7 +294,7 @@ export default function ArtifactsPage() {
         description_es:  result.description_es  || f.description_es,
         description_ko:  result.description_ko  || f.description_ko,
       }));
-      alert('✅ Translations completed!');
+      alert(' Translations completed!');
     } catch (e: any) {
       alert(`Translation error: ${e.message}`);
     } finally {
@@ -321,7 +321,7 @@ export default function ArtifactsPage() {
       const result = await generateAudioViaAPI(editingId, text, langCode, selectedVoice, speakingRate);
       if (result.success) {
         setAudioStatusFor(langCode, 'success');
-        alert(`✅ Audio for ${LANGUAGES.find(l => l.code === langCode)?.label} saved!`);
+        alert(`Audio for ${LANGUAGES.find(l => l.code === langCode)?.label} saved!`);
         await fetchData(page);
       }
     } catch (e: any) {
@@ -357,8 +357,8 @@ export default function ArtifactsPage() {
     }
     setGeneratingAllAudio(false);
     setAudioStep('');
-    if (ok > 0) { alert(`✅ ${ok} audio file(s) generated!${fail ? ` (${fail} failed)` : ''}`); await fetchData(page); }
-    else alert(`❌ Failed to generate ${fail} audio file(s).`);
+    if (ok > 0) { alert(` ${ok} audio file(s) generated!${fail ? ` (${fail} failed)` : ''}`); await fetchData(page); }
+    else alert(` Failed to generate ${fail} audio file(s).`);
   };
 
   // ── Save artifact ─────────────────────────────────────────────────────────────
